@@ -1,0 +1,8 @@
+.grid {
+	padding-top: 30px;
+	padding-left: 50px;
+}
+
+.row {
+	display: flex;
+}
