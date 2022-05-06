@@ -10,12 +10,19 @@
 .Wrapper{
   max-width:90%;
   margin:auto;
+  padding-top: 30px;
 
 }
 .rowWrapper{
   display: flex;
 }
 
-.background{
-  background-color: white;
+.Dropdown{
+  margin-left: 70px;
+  margin-right: 30px;
+}
+
+.buttonStyle{
+  padding-left: 50px;
+  padding-right: 50px;
 }
