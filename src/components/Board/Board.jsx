@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Node from './Node/Node';
 import { dijkstra, getNodesInShortestPathOrder, DFS, BFS } from '../../algorithms/algorithms';
 import './Grid.css';
-import { Button, CssBaseline, Toolbar, Select, Typography, AppBar } from '@mui/material'
+import { Button, CssBaseline, Toolbar, Select, Typography, AppBar, FormControl, InputLabel, MenuItem, Box } from '@mui/material'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 //Total number of rows and cols of the grid
@@ -16,15 +16,12 @@ let end = [10, 40];
 const theme = createTheme({
   palette: {
     random: {
-      // This is green.A700 as hex.
       main: '#607d8b',
     },
   },
 });
 
-
 export default class PathfindingVisualizer extends Component {
-
   constructor() {
     super();
     this.state = {
@@ -208,7 +205,7 @@ export default class PathfindingVisualizer extends Component {
     const { grid } = this.state;
     for (let row = 0; row < rows; row++) {
       for (let col = 0; col < cols; col++) {
-        if ((Math.random() <= 0.1 || Math.random() >= 0.85) && !grid[row][col].isStart && !grid[row][col].isFinish) {
+        if ((Math.random() <= 0.1 || Math.random() >= 0.9) && !grid[row][col].isStart && !grid[row][col].isFinish) {
           getNewGridWithWallToggled(grid, row, col);
         }
       }
@@ -261,20 +258,24 @@ export default class PathfindingVisualizer extends Component {
         <AppBar>
           <Toolbar style={{ backgroundColor: "#0F5298" }}>
             <Typography variant="h5" title="Click to visit the home screen">Pathfinding Visualizer</Typography>
-            <Select
-              native
-              label="Algorithm"
-              onChange={this.algorithmChange}
-              value={this.state.algoValue}
-              style={{ backgroundColor: "white" }}
-              title="Select the algorithm to view how it works"
-              className='Dropdown'
-            >
-              <option value="Dijkstra">Dijkstra</option>
-              <option value="A* algorithm">A* algorithm</option>
-              <option value="BFS">BFS</option>
-              <option value="DFS">DFS</option>
-            </Select>
+            <Box sx={{ minWidth: 120, m: 1}}>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Algorithm</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  label="Algorithm"
+                  onChange={this.algorithmChange}
+                  value={this.state.algoValue}
+                  title="Select the algorithm to view how it works"
+                >
+                  <MenuItem value="Dijkstra">Dijkstra</MenuItem>
+                  <MenuItem value="A* algorithm">A* algorithm</MenuItem>
+                  <MenuItem value="BFS">BFS</MenuItem>
+                  <MenuItem value="DFS">DFS</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
             <ThemeProvider theme={theme}>
               <Button sx={{ m: 2 }} title="Visualizes the selected algorithm" variant="contained" color="success" onClick={() => this.visualize(this.state.algoValue)}>
                 Visualize

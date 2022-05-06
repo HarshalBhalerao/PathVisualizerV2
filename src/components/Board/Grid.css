@@ -16,13 +16,3 @@
 .rowWrapper{
   display: flex;
 }
-
-.Dropdown{
-  margin-left: 70px;
-  margin-right: 30px;
-}
-
-.buttonStyle{
-  padding-left: 50px;
-  padding-right: 50px;
-}
