@@ -17,53 +17,6 @@ export function dijkstra(grid, startNode, finishNode) {
   }
 }
 
-export function DFS(grid, startNode, endNode){
-  const unvisited = [];
-  const vistedNodesInOrder = [];
-  startNode.isVisited = true;
-  startNode.previousNode = null;
-  unvisited.push(startNode);
-  vistedNodesInOrder.push(startNode);
-  while(unvisited.length !== 0){
-      const currentNode = unvisited.pop();
-      if(currentNode === endNode){
-          return vistedNodesInOrder;
-      }
-      currentNode.isVisited = true;
-      vistedNodesInOrder.push(currentNode);
-      let neighbors = getUnvisitedNeighbors(currentNode, grid);
-
-      for (const neighbor of neighbors) {
-        neighbor.previousNode = currentNode;
-        unvisited.push(neighbor);
-      }
-    }
-  return vistedNodesInOrder;
-}
-
-export function BFS(grid, startNode, endNode){
-  const unvisited = [];
-  const visitedNodesInOrder = [];
-  startNode.isVisited = true;
-  startNode.previous = null;
-  unvisited.push(startNode);
-  visitedNodesInOrder.push(startNode);
-  while(unvisited.length !== 0){
-    let currentNode = unvisited.shift();
-    if(currentNode === endNode){
-      return visitedNodesInOrder;
-    }
-    let neighbors = getUnvisitedNeighbors(currentNode, grid);
-    for(const neighbor of neighbors){
-      neighbor.isVisited = true;
-      neighbor.previousNode = currentNode;
-      unvisited.push(neighbor);
-      visitedNodesInOrder.push(neighbor);
-    }
-  }
-  return visitedNodesInOrder;
-}
-
 function sortNodesByDistance(unvisitedNodes) {
   unvisitedNodes.sort((nodeA, nodeB) => nodeA.distance - nodeB.distance);
 }
@@ -78,7 +31,7 @@ function updateUnvisitedNeighbors(node, grid) {
 
 function getUnvisitedNeighbors(node, grid) {
   let neighbors = [];
-  const {col, row} = node;
+  const { col, row } = node;
   if (row > 0) neighbors.push(grid[row - 1][col]);
   if (row < grid.length - 1) neighbors.push(grid[row + 1][col]);
   if (col > 0) neighbors.push(grid[row][col - 1]);
@@ -97,7 +50,7 @@ function getAllNodes(grid) {
   return nodes;
 }
 
-export function getNodesInShortestPathOrder(startNode,finishNode) {
+export function getNodesInShortestPathOrder(startNode, finishNode) {
   const nodesInShortestPathOrder = [];
   let currentNode = finishNode;
   while (currentNode !== null && currentNode !== startNode) {
