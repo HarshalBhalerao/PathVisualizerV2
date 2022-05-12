@@ -13,6 +13,7 @@ export function AStar(grid, startNode, finishNode) {
     closestNode.isVisited = true;
     visitedNodesInOrder.push(closestNode);
     if (closestNode === finishNode) return visitedNodesInOrder;
+    console.log(visitedNodesInOrder)
     updateUnvisitedNeighbors(closestNode, grid);
   }
 }
@@ -35,6 +36,8 @@ function updateUnvisitedNeighbors(node, grid) {
   const unvisitedNeighbors = getUnvisitedNeighbors(node, grid);
   for (const neighbor of unvisitedNeighbors) {
     neighbor.distance = node.distance + 1 + neighbor.distanceToFinishNode;
+    console.log(node.distance)
+    console.log(neighbor.distance)
     neighbor.previousNode = node;
   }
 }
