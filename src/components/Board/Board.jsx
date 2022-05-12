@@ -224,7 +224,6 @@ export default class PathfindingVisualizer extends Component {
   // algorithmChange(): Function called when algorithm changed. It clears the board and sets the algorithm value to the one selected.
   algorithmChange = (e) => {
     if (e.target && e.target.value) {
-      this.clearBoard();
       this.setState({ algoValue: e.target.value });
     }
   };
@@ -378,6 +377,9 @@ const createNode = (col, row) => {
     isStart: row === start[0] && col === start[1],
     isFinish: row === end[0] && col === end[1],
     distance: Infinity,
+    distanceToFinishNode:
+      Math.abs(end[0] - row) +
+      Math.abs(end[1] - col),
     isVisited: false,
     isWall: false,
     previousNode: null,
