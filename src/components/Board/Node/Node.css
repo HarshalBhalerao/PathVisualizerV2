@@ -6,7 +6,7 @@
 }
 
 .node-finish {
-	background-image: url(../../../circle.svg);
+	background-image: url(../../../images/circle.svg);
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
@@ -21,7 +21,7 @@
 }
 
 .node-start {
-	background-image: url(../../../triangletwo-right.svg);
+	background-image: url(../../../images/triangletwo-right.svg);
 	background-position: center;
   background-repeat: no-repeat;
   background-size: contain;

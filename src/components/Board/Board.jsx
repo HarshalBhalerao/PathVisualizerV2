@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import Node from './Node/Node';
-import { dijkstra, getNodesInShortestPathOrder, DFS, BFS } from '../../algorithms/algorithms';
+import { dijkstra, getNodesInShortestPathOrder } from '../../algorithms/dijkstra';
+import { DFS } from '../../algorithms/dfs';
+import { BFS } from '../../algorithms/bfs';
+import { AStar } from '../../algorithms/astar';
 import './Grid.css';
 import { Button, CssBaseline, Toolbar, Select, Typography, AppBar, FormControl, InputLabel, MenuItem, Box } from '@mui/material'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -18,6 +21,9 @@ const theme = createTheme({
     random: {
       main: '#607d8b',
     },
+    selectText: {
+      main: '#fff',
+    }
   },
 });
 
@@ -42,6 +48,7 @@ export default class PathfindingVisualizer extends Component {
     this.setState({ grid });
   }
 
+  //handleMouseDown: Function which handles mouse down events.
   handleMouseDown(row, col) {
     const { grid, start, end, visualized } = this.state;
     if (visualized) return;
@@ -60,6 +67,7 @@ export default class PathfindingVisualizer extends Component {
     }
   }
 
+  //handleMouseEnter(): Function which handles mouse enter events.
   handleMouseEnter(row, col) {
     const {
       start,
@@ -88,12 +96,14 @@ export default class PathfindingVisualizer extends Component {
     }
   }
 
+  //handleMouseUp(): Function which handles mouse up events.
   handleMouseUp() {
     const { visualized } = this.state;
     if (visualized) return;
     this.setState({ mouseIsPressed: false, movingStart: false, movingEnd: false });
   }
 
+  // clearBoard(): Function which resets nodes and clears the board.
   clearBoard() {
     const { visualized } = this.state;
     if (visualized) {
@@ -110,6 +120,7 @@ export default class PathfindingVisualizer extends Component {
     });
   }
 
+  // resetBoard(): function which Resets Nodes
   resetBoard() {
     const { visualized } = this.state;
     if (visualized) {
@@ -178,8 +189,16 @@ export default class PathfindingVisualizer extends Component {
       }
       setTimeout(() => {
         const node = visitedNodesInOrder[i];
-        document.getElementById(`node-${node.row}-${node.col}`).className =
-          'node node-visited';
+        const nodeClassName = document.getElementById(
+          `node-${node.row}-${node.col}`,
+        ).className;
+        if (
+          nodeClassName !== 'node node-start' &&
+          nodeClassName !== 'node node-finish'
+        ) {
+          document.getElementById(`node-${node.row}-${node.col}`).className =
+            'node node-visited';
+        }
       }, 5 * i);
     }
   }
@@ -188,12 +207,21 @@ export default class PathfindingVisualizer extends Component {
     for (let i = 0; i < nodesInShortestPathOrder.length; i++) {
       setTimeout(() => {
         const node = nodesInShortestPathOrder[i];
-        document.getElementById(`node-${node.row}-${node.col}`).className =
-          'node node-shortest-path';
-      }, 35 * i);
+        const nodeClassName = document.getElementById(
+          `node-${node.row}-${node.col}`,
+        ).className;
+        if (
+          nodeClassName !== 'node node-start' &&
+          nodeClassName !== 'node node-finish'
+        ) {
+          document.getElementById(`node-${node.row}-${node.col}`).className =
+            'node node-shortest-path';
+        }
+      }, i * 35);
     }
   }
 
+  // algorithmChange(): Function called when algorithm changed. It clears the board and sets the algorithm value to the one selected.
   algorithmChange = (e) => {
     if (e.target && e.target.value) {
       this.clearBoard();
@@ -201,7 +229,9 @@ export default class PathfindingVisualizer extends Component {
     }
   };
 
+  // randomWall(): Function for spawning random walls.
   randomWall() {
+    this.clearBoard();
     const { grid } = this.state;
     for (let row = 0; row < rows; row++) {
       for (let col = 0; col < cols; col++) {
@@ -244,6 +274,12 @@ export default class PathfindingVisualizer extends Component {
           this.animate(visitedNodesInOrder_BFS, nodesInShortestPathOrder_BFS);
           break;
 
+        case "AStar":
+          let visitedNodesInOrder_astar = AStar(grid, startNode, finishNode);
+          let nodesInShortestPathOrder_astar = getNodesInShortestPathOrder(startNode, finishNode);
+          this.animate(visitedNodesInOrder_astar, nodesInShortestPathOrder_astar);
+          break;
+
         default:
           return;
       }
@@ -256,9 +292,9 @@ export default class PathfindingVisualizer extends Component {
       <><React.Fragment>
         <CssBaseline />
         <AppBar>
-          <Toolbar style={{ backgroundColor: "#0F5298" }}>
+          <Toolbar style={{ backgroundColor: "#f57c00" }}>
             <Typography variant="h5" title="Click to visit the home screen">Pathfinding Visualizer</Typography>
-            <Box sx={{ minWidth: 120, m: 1}}>
+            <Box sx={{ minWidth: 120, m: 1 }}>
               <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Algorithm</InputLabel>
                 <Select
@@ -270,7 +306,7 @@ export default class PathfindingVisualizer extends Component {
                   title="Select the algorithm to view how it works"
                 >
                   <MenuItem value="Dijkstra">Dijkstra</MenuItem>
-                  <MenuItem value="A* algorithm">A* algorithm</MenuItem>
+                  <MenuItem value="AStar">A* algorithm</MenuItem>
                   <MenuItem value="BFS">BFS</MenuItem>
                   <MenuItem value="DFS">DFS</MenuItem>
                 </Select>
