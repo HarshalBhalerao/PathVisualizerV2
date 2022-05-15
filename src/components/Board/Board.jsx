@@ -7,6 +7,9 @@ import { AStar } from '../../algorithms/astar';
 import './Grid.css';
 import { Button, CssBaseline, Toolbar, Select, Typography, AppBar, FormControl, InputLabel, MenuItem, Box } from '@mui/material'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { horizontalMaze } from '../mazes/horizontal_maze';
+import { verticalMaze } from '../mazes/vertical_maze';
+import { recursiveDivisionMaze } from '../mazes/recursiveDivision';
 
 //Total number of rows and cols of the grid
 let rows = 20;
@@ -32,7 +35,8 @@ export default class PathfindingVisualizer extends Component {
     super();
     this.state = {
       grid: [],
-      algoValue: "Dijkstra",
+      algoValue: "",
+      mazeValue: "",
       wallValue: "None",
       start: start,
       end: end,
@@ -40,6 +44,7 @@ export default class PathfindingVisualizer extends Component {
       movingStart: false,
       movingEnd: false,
       visualized: false,
+      generatingMaze: false,
     };
   }
 
@@ -228,18 +233,109 @@ export default class PathfindingVisualizer extends Component {
     }
   };
 
+  mazeChange = (e) => {
+    if (e.target && e.target.value) {
+      this.setState({ mazeValue: e.target.value });
+    }
+  };
+
+  animateMaze = (walls) => {
+    for (let i = 0; i <= walls.length; i++) {
+      if (i === walls.length) {
+        setTimeout(() => {
+          let newGrid = getNewGridWithMaze(this.state.grid, walls);
+          this.setState({ grid: newGrid, generatingMaze: false });
+        }, i * 10);
+        return;
+      }
+      let wall = walls[i];
+      let node = this.state.grid[wall[0]][wall[1]];
+      setTimeout(() => {
+        //Walls
+        document.getElementById(`node-${node.row}-${node.col}`).className =
+          "node node-wall-animated";
+      }, i * 10);
+    }
+  };
+
+  generateHorizontalMaze() {
+    if (this.state.visualized || this.state.generatingMaze) {
+      return;
+    }
+    this.setState({ generatingMaze: true });
+    setTimeout(() => {
+      const { grid } = this.state;
+      const startNode = grid[start[0]][start[1]];
+      const finishNode = grid[end[0]][end[1]];
+      const walls = horizontalMaze(grid, startNode, finishNode);
+      this.animateMaze(walls);
+    }, 10);
+  }
+
+  generateRecursiveDivisionMaze() {
+    if (this.state.visualized || this.state.generatingMaze) {
+      return;
+    }
+    this.setState({ generatingMaze: true });
+    setTimeout(() => {
+      const { grid } = this.state;
+      const startNode = grid[start[0]][start[1]];
+      const finishNode = grid[end[0]][end[1]];
+      const walls = recursiveDivisionMaze(grid, startNode, finishNode);
+      this.animateMaze(walls);
+    }, 10);
+  }
+
+  generateVerticalMaze() {
+    if (this.state.visualized || this.state.generatingMaze) {
+      return;
+    }
+    this.setState({ generatingMaze: true });
+    setTimeout(() => {
+      const { grid } = this.state;
+      const startNode = grid[start[0]][start[1]];
+      const finishNode = grid[end[0]][end[1]];
+      const walls = verticalMaze(grid, startNode, finishNode);
+      this.animateMaze(walls);
+    }, 10);
+  }
+
   // randomWall(): Function for spawning random walls.
   randomWall() {
     this.clearBoard();
     const { grid } = this.state;
     for (let row = 0; row < rows; row++) {
       for (let col = 0; col < cols; col++) {
-        if ((Math.random() <= 0.1 || Math.random() >= 0.9) && !grid[row][col].isStart && !grid[row][col].isFinish) {
+        if ((Math.random() <= 0.1 || Math.random() >= 0.85) && !grid[row][col].isStart && !grid[row][col].isFinish) {
           getNewGridWithWallToggled(grid, row, col);
         }
       }
     }
     this.setState({ grid: grid });
+  }
+
+  visualizeMaze(text) {
+    this.clearBoard();
+    switch (text) {
+      case "Horizontal Maze":
+        this.generateHorizontalMaze();
+        break;
+
+      case "Random Walls":
+        this.randomWall();
+        break;
+
+      case "Vertical Maze":
+        this.generateVerticalMaze();
+        break;
+
+      case "Recursive Division":
+        this.generateRecursiveDivisionMaze();
+        break;
+
+      default:
+        return;
+    }
   }
 
   visualize(text) {
@@ -293,7 +389,7 @@ export default class PathfindingVisualizer extends Component {
         <AppBar>
           <Toolbar style={{ backgroundColor: "#f57c00" }}>
             <Typography variant="h5" title="Click to visit the home screen">Pathfinding Visualizer</Typography>
-            <Box sx={{ minWidth: 120, m: 1 }}>
+            <Box sx={{ minWidth: 120, m: 1.5 }}>
               <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Algorithm</InputLabel>
                 <Select
@@ -311,17 +407,35 @@ export default class PathfindingVisualizer extends Component {
                 </Select>
               </FormControl>
             </Box>
+            <Button sx={{ m: 1.5, minHeight: 55 }} title="Visualizes the selected algorithm" variant="contained" color="success" onClick={() => this.visualize(this.state.algoValue)}>
+              Visualize {this.state.algoValue}
+            </Button>
+            <Box sx={{ minWidth: 120, m: 1.5 }}>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Maze Algorithm</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  label="Maze Algorithm"
+                  onChange={this.mazeChange}
+                  value={this.state.mazeValue}
+                  title="Select the maze to appear on the board"
+                >
+                  <MenuItem value="Horizontal Maze">Horizontal Maze</MenuItem>
+                  <MenuItem value="Random Walls">Random Walls</MenuItem>
+                  <MenuItem value="Vertical Maze">Vertical Maze</MenuItem>
+                  <MenuItem value="Recursive Division">Recursive Division</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
             <ThemeProvider theme={theme}>
-              <Button sx={{ m: 2 }} title="Visualizes the selected algorithm" variant="contained" color="success" onClick={() => this.visualize(this.state.algoValue)}>
-                Visualize
+              <Button sx={{ m: 1.5, minHeight: 55 }} title="Randomly places walls" variant="contained" color="random" onClick={() => this.visualizeMaze(this.state.mazeValue)}>
+                Generate Maze
               </Button>
-              <Button sx={{ m: 2 }} title="Clears the grid to default" variant="contained" color="error" onClick={() => this.clearBoard()} >
+              <Button sx={{ m: 1.5, minHeight: 55 }} title="Clears the grid to default" variant="contained" color="error" onClick={() => this.clearBoard()} >
                 Clear All
               </Button>
-              <Button sx={{ m: 2 }} title="Randomly places walls" variant="contained" color="random" onClick={() => this.randomWall()} >
-                Random Walls
-              </Button>
-              <Button sx={{ m: 2 }} title="Resets the grid to default and keeps walls" variant="contained" onClick={() => this.resetBoard()} >
+              <Button sx={{ m: 1.5, minHeight: 55 }} title="Resets the grid to default and keeps walls" variant="contained" onClick={() => this.resetBoard()} >
                 Reset Nodes
               </Button>
             </ThemeProvider>
@@ -418,3 +532,16 @@ const toggleEnd = (grid, row, col) => {
   newGrid[row][col] = newNode;
   return newGrid;
 };
+
+const getNewGridWithMaze = (grid, walls) => {
+  let newGrid = grid.slice();
+  for (let wall of walls) {
+    let node = grid[wall[0]][wall[1]];
+    let newNode = {
+      ...node,
+      isWall: true,
+    };
+    newGrid[wall[0]][wall[1]] = newNode;
+  }
+  return newGrid;
+}
