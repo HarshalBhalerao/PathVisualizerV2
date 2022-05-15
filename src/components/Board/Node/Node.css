@@ -7,32 +7,41 @@
 
 .node-finish {
 	background-image: url(../../../images/circle.svg);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
-  animation-name: specialNodes;
-  animation-duration: 2.0s;
-  animation-timing-function: ease-out;
-  animation-delay: 0;
-  animation-direction: alternate;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-  animation-play-state: running;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: contain;
+	animation-name: specialNodes;
+	animation-duration: 2.0s;
+	animation-timing-function: ease-out;
+	animation-delay: 0;
+	animation-direction: alternate;
+	animation-iteration-count: 1;
+	animation-fill-mode: forwards;
+	animation-play-state: running;
 }
 
 .node-start {
 	background-image: url(../../../images/triangletwo-right.svg);
 	background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
-  animation-name: specialNodes;
-  animation-duration: 2.0s;
-  animation-timing-function: ease-out;
-  animation-delay: 0;
-  animation-direction: alternate;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-  animation-play-state: running;
+	background-repeat: no-repeat;
+	background-size: contain;
+	animation-name: specialNodes;
+	animation-duration: 2.0s;
+	animation-timing-function: ease-out;
+	animation-delay: 0;
+	animation-direction: alternate;
+	animation-iteration-count: 1;
+	animation-fill-mode: forwards;
+	animation-play-state: running;
+}
+
+.node-wall-animated {
+	display: inline-block;
+	animation-name: wallAnimation;
+	animation-duration: 0.5s;
+	animation-timing-function: ease-out;
+	animation-direction: alternate;
+	animation-fill-mode: forwards;
 }
 
 .node-visited {
@@ -44,6 +53,32 @@
 	animation-iteration-count: 1;
 	animation-fill-mode: forwards;
 	animation-play-state: running;
+}
+
+@keyframes wallAnimation {
+	0% {
+		transform: scale(0.4);
+		background-color: rgb(2, 36, 51);
+		border-radius: 30%;
+	}
+
+	50% {
+		transform: scale(0.6);
+		background-color: rgb(2, 36, 51);
+		border-radius: 20%;
+	}
+
+	75% {
+		transform: scale(0.8);
+		background-color: rgb(2, 36, 51);
+		border-radius: 10%;
+	}
+
+	100% {
+		transform: scale(1);
+		background-color: rgb(2, 36, 51);
+		border: 1px solid rgb(2, 36, 51);
+	}
 }
 
 @keyframes visitedAnimation {
@@ -70,28 +105,14 @@
 
 .node-wall {
 	animation-name: wallAnimation;
-  animation-duration: 0s;
-  animation-timing-function: ease-out;
-  animation-delay: 0;
-  animation-direction: alternate;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-  animation-play-state: running;
+	animation-duration: 0s;
+	animation-timing-function: ease-out;
+	animation-delay: 0;
+	animation-direction: alternate;
+	animation-iteration-count: 1;
+	animation-fill-mode: forwards;
+	animation-play-state: running;
 	background-color: rgb(12, 53, 71);
-}
-
-@keyframes wallAnimation {
-  0% {
-    transform: scale(.3);
-  }
-
-  50% {
-    transform: scale(1.2);
-  }
-
-  100% {
-    transform: scale(1.0);
-  }
 }
 
 .node-shortest-path {
