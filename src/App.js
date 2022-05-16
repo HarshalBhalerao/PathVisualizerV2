@@ -3,7 +3,6 @@ import './index.css';
 import Pathfinding from './components/Pathfinding';
 import DotLoader from "react-spinners/DotLoader";
 import { css } from "@emotion/react";
-import 'typeface-indie-flower';
 
 
 const override = css`
