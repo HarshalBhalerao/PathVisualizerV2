@@ -11,3 +11,29 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.CenterElement{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 15% ;
+  margin-bottom: 5%;
+  font-family: 'Macondo', cursive;
+  font-size: 4rem;
+  color: white;
+}
+
+.background {
+  width: 100vw;
+  min-height: 100vh;
+  background-color: #f57c00;
+}
+
+.background:hover{
+  background-color: rgba(17, 104, 217, 0.75);
+  -webkit-transition: background-color 2s ease-out;
+  -moz-transition: background-color 2s ease-out;
+  -o-transition: background-color 2s ease-out;
+  transition: background-color 2s ease-out;
+}
+
