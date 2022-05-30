@@ -10,6 +10,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { horizontalMaze } from '../mazes/horizontal_maze';
 import { verticalMaze } from '../mazes/vertical_maze';
 import { recursiveDivisionMaze } from '../mazes/recursiveDivision';
+import Dialog from '../Tutorial/Dialog';
 
 //Total number of rows and cols of the grid
 let rows = 20;
@@ -386,6 +387,7 @@ export default class PathfindingVisualizer extends Component {
     return (
       <><React.Fragment>
         <CssBaseline />
+        <Dialog />
         <AppBar>
           <Toolbar style={{ backgroundColor: "#f57c00" }}>
             <Typography variant="h5" title="Click to visit the home screen">Pathfinding Visualizer</Typography>
