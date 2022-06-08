@@ -14,7 +14,7 @@ const override = css`
 
 function App() {
   const [loading, setLoading] = useState(false);
-  let [color, setColor] = useState("#ffffff");
+  let [color] = useState("#ffffff");
 
   useEffect(() => {
     setLoading(true)
