@@ -35,7 +35,7 @@ export default class PathfindingVisualizer extends Component {
     super();
     this.state = {
       grid: [],
-      algoValue: "",
+      algoValue: "Dijkstra",
       mazeValue: "",
       wallValue: "None",
       start: start,
@@ -429,7 +429,7 @@ export default class PathfindingVisualizer extends Component {
               </FormControl>
             </Box>
             <ThemeProvider theme={theme}>
-              <Button sx={{ m: 1.5, minHeight: 55 }} title="Randomly places walls" variant="contained" color="random" onClick={() => this.visualizeMaze(this.state.mazeValue)}>
+              <Button sx={{ m: 1.5, minHeight: 55 }} title="Generates Maze. Select one maze from the maze algorithm dropdown first and then click this button." variant="contained" color="random" onClick={() => this.visualizeMaze(this.state.mazeValue)}>
                 Generate Maze
               </Button>
               <Button sx={{ m: 1.5, minHeight: 55 }} title="Clears the grid to default" variant="contained" color="error" onClick={() => this.clearBoard()} >
