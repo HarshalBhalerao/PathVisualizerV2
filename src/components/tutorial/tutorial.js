@@ -25,8 +25,8 @@ const Tutorial = ({ setOpenModal }) => {
       setDisableNext(false);
       setTitle("Algorithms Used");
       setParagraphStyle("algorithms");
-      setParagraph(<ul><li><b>Dijkstra</b>: Searching the <i>entire graph indiscriminately</i> for the shortest possible route. This algorithm has big fills and is inefficient for point-to-point pathfinding. Also called <b>Null Heuristic Algorithm</b>.</li>
-      <li><b>A* Algorithm</b>: Searches the entire graph for the shortest possible route using <b>Chebyshev Distance(Heuristic)</b>. Most efficient algorithm implemented in AI Characters in games. For example: Going from one point in the map to another, movement planning of a character (animations), Goal-Oriented behaviour of a AI character, etc. The algorithm gets used for many real world situations like route planning on Google Maps, and in Robotics to navigate around obstacles and get to the goal as soon as possible.</li></ul>);
+      setParagraph(<ul><li><b>Dijkstra</b>: It is a greedy algorithm which finds the shortest path possible by prioritizing visiting nodes with the smallest known cost. This algorithm is known for having big fills and it searched the entire graph indiscriminately for the shortest possible route. Thus, making it wasteful for point-to-point pathfinding.</li>
+      <li><b>A* Algorithm</b>: Searches the entire graph for the shortest possible route using <b>Manhattan Distance(Heuristic)</b>. Most efficient algorithm implemented in AI Characters in games. For example: Going from one point in the map to another, movement planning of a character (animations), Goal-Oriented behaviour of a AI character, etc. The algorithm gets used for many real world situations like route planning on Google Maps, and in Robotics to navigate around obstacles and get to the goal as soon as possible.</li></ul>);
     }
     if (count === 2) {
       setImageExist(false);
@@ -34,7 +34,7 @@ const Tutorial = ({ setOpenModal }) => {
       setDisableNext(false);
       setTitle("Algorithms Used");
       setParagraphStyle("algorithms");
-      setParagraph(<ul><li><b>DFS (Depth First Search)</b>: It is an algorithm for traversing or searching tree or graph data structures. The algorithm starts at the root node (selecting some arbitrary node as the root node in the case of a graph) and explores as far as possible along each branch before backtracking.</li><li><b>BFS (Breadth First Search)</b>: This algorithm is used to search a tree or graph data structure for a node that meets a set of criteria. It starts at the tree’s root or graph and searches/visits all nodes at the current depth level before moving on to the nodes at the next depth level</li></ul>);
+      setParagraph(<ul><li><b>DFS (Depth First Search)</b>: It is an algorithm for traversing or searching tree or graph data structures. The algorithm starts at the root node (selecting some arbitrary node as the root node in the case of a graph) and explores as far as possible along each branch before backtracking.</li><li><b>BFS (Breadth First Search)</b>: This algorithm is used to search a tree or graph data structure for a node that meets a set of criteria. It starts at the tree’s root or graph and searches/visits all nodes at the current depth level before moving on to the nodes at the next depth level.</li></ul>);
     }
     if(count === 3){
       setImageExist(false);
